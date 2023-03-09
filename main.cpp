@@ -217,6 +217,7 @@ void addPulse()
     }
 }
 
+
 int main()
 {
     string input;
