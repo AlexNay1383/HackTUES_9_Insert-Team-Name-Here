@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <cstring>
 using namespace std;
 
 class User
@@ -74,8 +75,27 @@ void LogIn()
 
 int main()
 {
-    Register();
-    LogIn();
+    string input;
+    cin >> input;
+    for(int i=0; i < input.length();i++)
+    {
+        char a = tolower(input[i]);
+        input[i]=a;
+    }
+    while(input!="exit"){
+
+        if(input=="login"){
+            LogIn();
+        }
+        else if(input=="logout"){
+
+        }
+        else if(input=="register"){
+            Register();
+        }
+        cout << "\n";
+        cin >> input;
+    }
 
     return 0;
 }
