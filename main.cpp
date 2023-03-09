@@ -16,12 +16,13 @@ class User
         string email = "";
         string password;
         int age;
-        double averageSleep = 0, averagePulse = 0;
+        double averageSleep = 0, averagePulse = 0, averageWorkout = 0, averageSteps = 0;
 
     private:
         int totalPulse = 0, pulseCounter = 0;
         int totalSleep = 0, sleepCounter = 0;
-        int totalWorkout = 0, wokoutCounter = 0;
+        int totalWorkout = 0, workoutCounter = 0;
+        int totalSteps = 0, stepsCounter = 0;
 
     public:
         double addSleep(int sleep)
@@ -42,8 +43,15 @@ class User
         {
             this->totalWorkout+=workout;
             sleepCounter++;
-            averageWorkout=totalworkout/workoutCounter;
+            averageWorkout=totalWorkout/workoutCounter;
             return averageWorkout;
+        }
+        double addSteps(int steps)
+        {
+            this->totalSteps+=steps;
+            stepsCounter++;
+            averageSteps=totalSteps/stepsCounter;
+            return averageSteps;
         }
 
 
@@ -132,6 +140,7 @@ int main()
     cout << "exit - exits the program\n";
     cout << "login - logs in an account\n";
     cout << "logout - log out of the active account\n";
+    cout << "register - register\n";
     cin >> input;
 
     for(int i=0; i < input.length();i++)
