@@ -28,7 +28,7 @@ class User
         double addPulse(int pulse)
         {
             this->totalPulse+=pulse;
-            sleepCounter++;
+            pulseCounter++;
             averagePulse=totalPulse/pulseCounter;
             return averagePulse;
         }
@@ -81,6 +81,7 @@ void Register()
     string user_hash = Hash(email + password);
 
     users[user_hash] = user;
+    cout << "You have successfully registered";
 }
 
 void LogIn()
@@ -101,12 +102,68 @@ void LogIn()
       // found
         active_user = users[user_hash];
     }
-
+    cout << "You have successfully logged in";
 }
 
 void LogOut()
 {
     active_user = User();
+}
+
+void addPulse()
+{
+    if(active_user.email!=""){
+        int pulse;
+        cout << "What was your pulse?" << endl;
+        cin >> pulse;
+        double averagePulse = active_user.addPulse(pulse);
+        cout << "Your average pulse is:";
+        switch(active_user.age)
+{
+    case 1:;
+    case 2:
+        {
+            if(averagePulse>130) cout<<"\nPulse is too high";
+            else if(averagePulse<80) cout<<"\nPulse is too low";
+            else cout<<"\nPulse is within acceptable values";
+            break;
+        }
+    case 3:;
+    case 4:
+        {
+            if(averagePulse>120) cout<<"\nPulse is too high";
+            else if(averagePulse<80) cout<<"\nPulse is too low";
+            else cout<<"\nPulse is within acceptable values";
+            break;
+        }
+    case 5:;
+    case 6:
+        {
+            if(averagePulse>115) cout<<"\nPulse is too high";
+            else if(averagePulse<75) cout<<"\nPulse is too low";
+            else cout<<"\nPulse is within acceptable values";
+            break;
+        }
+    case 7:;
+    case 8:;
+    case 9:
+        {
+            if(averagePulse>110) cout<<"\nPulse is too high";
+            else if(averagePulse<70) cout<<"\nPulse is too low";
+            else cout<<"\nPulse is within acceptable values";
+
+            break;
+        }
+    default :
+        {
+            if(averagePulse>100) cout<<"\nPulse is too high";
+            else if(averagePulse<60) cout<<"\nPulse is too low";
+            else cout<<"\nPulse is within acceptable values";
+        }
+
+}
+
+    }
 }
 
 int main()
@@ -130,9 +187,13 @@ int main()
         else if(input=="register"){
             Register();
         }
+        else if(input=="addpulse"){
+            addPulse();
+        }
         cout << "\n";
         cin >> input;
     }
 
     return 0;
 }
+
