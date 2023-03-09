@@ -71,6 +71,7 @@ class User
         }
 };
 
+
 map<string, User> users;
 User active_user;
 int logged_in = false;
@@ -132,6 +133,34 @@ void LogOut()
     active_user = User();
     logged_in = false;
 }
+
+void AddSleep()
+{
+    if(active_user.email!="")
+    {
+        int sleephours;
+        double avg_sleep;
+        cin >> sleephours;
+        avg_sleep=active_user.addSleep(sleephours);
+      cout << "Your average amount of sleep is: " << avg_sleep;
+
+        if (active_user.age < 18) {
+        if (avg_sleep >= 8) {
+          cout << "Your average amount of sleep for one week is good." << endl;
+        } else {
+          cout << "Your average amount of sleep for one week is bad." << endl;
+        }
+      } else {
+        if (avg_sleep >= 7) {
+          cout << "Your average amount of sleep for one week is good." << endl;
+        } else {
+          cout << "Your average amount of sleep for one week is bad." << endl;
+        }
+      }
+
+    }
+}
+
 
 int main()
 {
