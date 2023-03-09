@@ -1,26 +1,56 @@
 #include <iostream>
+#include <regex>
 #include <map>
-#include <cstring>
 using namespace std;
+
+bool email_is_valid(const string& email)
+{
+    const regex pattern(
+        "(\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+");
+    return regex_match(email, pattern);
+}
 
 class User
 {
     public:
-        string email;
+        string email = "";
         string password;
+        int age;
+        double averageSleep = 0, averagePulse = 0;
+
+        double addSleep(int sleep)
+        {
+            this->totalSleep+=sleep;
+            sleepCounter++;
+            averageSleep=totalSleep/sleepCounter;
+            return averageSleep;
+        }
+        double addPulse(int pulse)
+        {
+            this->totalPulse+=pulse;
+            sleepCounter++;
+            averagePulse=totalPulse/pulseCounter;
+            return averagePulse;
+        }
+
+
         User()
         {
 
         }
-        User(string email, string password)
+        User(string email, string password, int age)
         {
             this->email = email;
             this->password = password;
+            this->age = age;
         }
         ~User()
         {
 
         }
+    private:
+        int totalPulse = 0, pulseCounter = 0;
+        int totalSleep = 0, sleepCounter = 0;
 };
 
 map<string, User> users;
@@ -37,18 +67,20 @@ string Hash(string str)
 void Register()
 {
     string email, password;
+    int age;
     cout << "Enter email: ";
     cin >> email;
     cout << "Enter password: ";
     cin >> password;
+    cout << "Enter age: ";
+    cin >> age;
 
     password = Hash(password);
 
-    User user(email, password);
+    User user(email, password, age);
     string user_hash = Hash(email + password);
 
     users[user_hash] = user;
-    cout << users[user_hash].email << endl << users[user_hash].password << endl;
 }
 
 void LogIn()
@@ -68,18 +100,23 @@ void LogIn()
     } else {
       // found
         active_user = users[user_hash];
-        cout << active_user.email << endl;
     }
 
+}
+
+void LogOut()
+{
+    active_user = User();
 }
 
 int main()
 {
     string input;
+    cout << ""; //to finish
     cin >> input;
+
     for(int i=0; i < input.length();i++)
-    {
-        char a = tolower(input[i]);
+    {        char a = tolower(input[i]);
         input[i]=a;
     }
     while(input!="exit"){
@@ -88,7 +125,7 @@ int main()
             LogIn();
         }
         else if(input=="logout"){
-
+            LogOut();
         }
         else if(input=="register"){
             Register();
