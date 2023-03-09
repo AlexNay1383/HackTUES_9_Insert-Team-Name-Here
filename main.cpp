@@ -18,6 +18,12 @@ class User
         int age;
         double averageSleep = 0, averagePulse = 0;
 
+    private:
+        int totalPulse = 0, pulseCounter = 0;
+        int totalSleep = 0, sleepCounter = 0;
+        int totalWorkout = 0, wokoutCounter = 0;
+
+    public:
         double addSleep(int sleep)
         {
             this->totalSleep+=sleep;
@@ -31,6 +37,13 @@ class User
             sleepCounter++;
             averagePulse=totalPulse/pulseCounter;
             return averagePulse;
+        }
+        double addWorkout(int workout)
+        {
+            this->totalWorkout+=workout;
+            sleepCounter++;
+            averageWorkout=totalworkout/workoutCounter;
+            return averageWorkout;
         }
 
 
@@ -48,13 +61,11 @@ class User
         {
 
         }
-    private:
-        int totalPulse = 0, pulseCounter = 0;
-        int totalSleep = 0, sleepCounter = 0;
 };
 
 map<string, User> users;
 User active_user;
+int logged_in = false;
 
 string Hash(string str)
 {
@@ -94,12 +105,16 @@ void LogIn()
     password = Hash(password);
 
     string user_hash = Hash(email + password);
-    if (users.find(user_hash) == users.end()) {
+    if (users.find(user_hash) == users.end())
+    {
       // not found
       cout << "User not found\n";
-    } else {
+    }
+    else if(!logged_in)
+    {
       // found
         active_user = users[user_hash];
+        logged_in = true;
     }
 
 }
@@ -107,12 +122,16 @@ void LogIn()
 void LogOut()
 {
     active_user = User();
+    logged_in = false;
 }
 
 int main()
 {
     string input;
-    cout << ""; //to finish
+    cout << "List of commands: \n"; //to finish
+    cout << "exit - exits the program\n";
+    cout << "login - logs in an account\n";
+    cout << "logout - log out of the active account\n";
     cin >> input;
 
     for(int i=0; i < input.length();i++)
