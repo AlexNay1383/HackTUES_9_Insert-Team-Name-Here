@@ -3,11 +3,10 @@
 #include <map>
 using namespace std;
 
-bool email_is_valid(const string& email)
+bool email_is_valid(string email)
 {
-    const regex pattern(
-        "(\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+");
-    return regex_match(email, pattern);
+    string userEmailRegex = "([_a-z0-9-]+@[a-z0-9-]+.[a-z0-9-]{2,4})";
+    return regex_match(email, regex(userEmailRegex));
 }
 
 class User
@@ -86,10 +85,19 @@ string Hash(string str)
 
 void Register()
 {
-    string email, password;
+    string email, password, email1;
     int age;
     cout << "Enter email: ";
     cin >> email;
+    bool isValid = email_is_valid(email);
+
+    while(!isValid)
+    {
+        cout << " is invalid email" << endl;
+        cout << "Enter email: ";
+        cin >> email;
+        isValid = email_is_valid(email);
+    }
     cout << "Enter password: ";
     cin >> password;
     cout << "Enter age: ";
@@ -125,8 +133,8 @@ void LogIn()
       // found
         active_user = users[user_hash];
         logged_in = true;
+        cout << "You have successfully logged in";
     }
-    cout << "You have successfully logged in";
 }
 
 void LogOut()
@@ -216,6 +224,7 @@ void addPulse()
     }
     }
 }
+
 
 int main()
 {
