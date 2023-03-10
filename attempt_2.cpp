@@ -120,20 +120,19 @@ struct Data
 {
     Info info[ACTIVITIES][DAYS];
 
-    void display(string activity)
+    void display_avg(string act)
     {
+        int sum = 0;
+
         for(int i=0;i<DAYS;i++)
         {
-            //display info[act][i]
+            if(info[index_act(act)][i].entered)
+                sum+=info[index_act(act)][i].value;
+        }
+        sum/=DAYS;
 
-        }
-    }
-    void display(int day)
-    {
-        for(int i=0;i<ACTIVITIES;i++)
-        {
-            //display info[i][day]
-        }
+
+        cout << "Your average amount of " + act + " is: " << sum << endl;
     }
 };
 
@@ -179,13 +178,13 @@ void enterData()
     if(valid_act(act))
     {
         if(act == "sleep" || act == "workout")
-            message = "How many hours did you " + act + " today?\n";
+            message = "How many minutes did you " + act + " today?\n";
         if(act == "pulse")
-            message = "How high was your pulse today?\n";
+            message = "How high was your pulse today(in bpm)?\n";
         if(act == "steps")
             message = "How many steps did you make today?\n";
         if(act == "water")
-            message = "How much water did you drink today?\n";
+            message = "How much water did you drink today(in liters)?\n";
         cout << message;
         cin >> active_user.data.info[index_act(act)][0].value;
         active_user.data.info[index_act(act)][0].entered = true;
@@ -196,7 +195,8 @@ void enterData()
 
 int main()
 {
-    enterData();
+    User user;
+    user.data.display_avg("sleep");
 
     return 0;
 }
