@@ -3,6 +3,63 @@
 #include <map>
 using namespace std;
 
+string encryptyfunc(int key,string text)
+{
+     char temp;
+    int i;
+  for(i = 0; text[i] != '\0'; ++i){
+    temp = text[i];
+    if(temp >= 'a' && temp <= 'z'){
+      temp = temp + key;
+
+      if(temp > 'z'){
+        temp = temp - 'z' + 'a' - 1;
+      }
+
+      text[i] = temp;
+    }
+    else if(temp >= 'A' && temp <= 'Z'){
+      temp = temp + key;
+
+      if(temp > 'Z'){
+        temp = temp - 'Z' + 'A' - 1;
+      }
+
+      text[i] = temp;
+    }
+  }
+    return text;
+}
+string decryptfunc(int key,string text)
+{
+    char temp;
+    int i;
+  for(i = 0; text[i] != '\0'; ++i){
+    temp = text[i];
+    if(temp >= 'a' && temp <= 'z'){
+      temp = temp - key;
+
+      if(temp < 'a'){
+        temp = temp + 'z' - 'a' + 1;
+      }
+
+      text[i] = temp;
+    }
+    else if(temp >= 'A' && temp <= 'Z'){
+      temp = temp - key;
+
+      if(temp < 'A'){
+        temp = temp + 'Z' - 'A' + 1;
+      }
+
+      text[i] = temp;
+    }
+  }
+
+  return text;
+
+}
+
 bool email_is_valid(string email)
 {
     string userEmailRegex = "([_a-z0-9-]+@[a-z0-9-]+.[a-z0-9-]{2,4})";
