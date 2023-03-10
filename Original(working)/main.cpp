@@ -3,11 +3,10 @@
 #include <map>
 using namespace std;
 
-bool email_is_valid(const string& email)
+bool email_is_valid(string email)
 {
-    const regex pattern(
-        "(\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+");
-    return regex_match(email, pattern);
+    string userEmailRegex = "([_a-z0-9-]+@[a-z0-9-]+.[a-z0-9-]{2,4})";
+    return regex_match(email, regex(userEmailRegex));
 }
 
 class User
@@ -86,10 +85,19 @@ string Hash(string str)
 
 void Register()
 {
-    string email, password;
+    string email, password, email1;
     int age;
     cout << "Enter email: ";
     cin >> email;
+    bool isValid = email_is_valid(email);
+
+    while(!isValid)
+    {
+        cout << " is invalid email" << endl;
+        cout << "Enter email: ";
+        cin >> email;
+        isValid = email_is_valid(email);
+    }
     cout << "Enter password: ";
     cin >> password;
     cout << "Enter age: ";
@@ -125,8 +133,8 @@ void LogIn()
       // found
         active_user = users[user_hash];
         logged_in = true;
+        cout << "You have successfully logged in";
     }
-    cout << "You have successfully logged in";
 }
 
 void LogOut()
@@ -216,6 +224,53 @@ void addPulse()
     }
     }
 }
+void addSteps(){
+    if(active_user.email!="")
+    {
+        int steps;
+        double averageSteps=0;
+        cout << "How many steps do you get?:\n";
+        cin >> steps;
+        averageSteps=active_user.addSteps(steps);
+        cout << "Your average steps are: " << averageSteps << endl;
+        if (active_user.age < 5) {
+            if (averageSteps >= 2000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+        }
+        else if (active_user.age >5 && active_user.age <=13) {
+            if (averageSteps >= 8000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >13 && active_user.age <=45) {
+            if (averageSteps >= 10000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >45 && active_user.age <=60) {
+            if (averageSteps >= 8000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >60) {
+            if (averageSteps >= 6000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+     }
+}
+
 
 int main()
 {
