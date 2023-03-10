@@ -2,6 +2,7 @@
 #include <regex>
 #include <map>
 #include <bits/stdc++.h>
+
 using namespace std;
 
 string encryptyfunc(int key,string text)
@@ -10,7 +11,7 @@ string encryptyfunc(int key,string text)
     int i;
   for(i = 0; text[i] != '\0'; ++i){
     temp = text[i];
-    if(temp >= 'a' && temp <= 'z'){
+    if((temp >= 'a' && temp <= 'z')) {
       temp = temp + key;
 
       if(temp > 'z'){
@@ -19,11 +20,11 @@ string encryptyfunc(int key,string text)
 
       text[i] = temp;
     }
-    else if(temp >= 'A' && temp <= 'Z'){
+    else if(temp >= '0' && temp <= 'Z'){
       temp = temp + key;
 
       if(temp > 'Z'){
-        temp = temp - 'Z' + 'A' - 1;
+        temp = temp - 'Z' + '0' - 1;
       }
 
       text[i] = temp;
@@ -37,20 +38,20 @@ string decryptfunc(int key,string text)
     int i;
   for(i = 0; text[i] != '\0'; ++i){
     temp = text[i];
-    if(temp >= 'a' && temp <= 'z'){
+    if((temp >= 'a' && temp <= 'z')){
       temp = temp - key;
 
-      if(temp < 'a'){
+      if(temp < 'a' && temp > '9'){
         temp = temp + 'z' - 'a' + 1;
       }
 
       text[i] = temp;
     }
-    else if(temp >= 'A' && temp <= 'Z'){
+    else if(temp >= '0' && temp <= 'Z'){
       temp = temp - key;
 
-      if(temp < 'A'){
-        temp = temp + 'Z' - 'A' + 1;
+      if(temp < '0'){
+        temp = temp + 'Z' - '0' + 1;
       }
 
       text[i] = temp;
@@ -163,6 +164,8 @@ void Register()
         cin >> email;
         isValid = email_is_valid(email);
     }
+    int encKey = email.size();
+
     cout << "Enter password: ";
     cin >> password;
     cout << "Enter age: ";
@@ -181,9 +184,12 @@ void Register()
     {
         cout<<"Error in creating file!!!";
     }
+    string ageStr = to_string(age);
+    ageStr = "age" + ageStr;
+    file << encryptyfunc(encKey,ageStr);
     file.close();
-
-    cout << "File created successfully."<<endl;
+    ifstream fileReader;
+    fileReader.open("Users/"+user_hash+".txt");
     cout << "You have successfully registered."<<endl;
     cout << "Now you can login, logout or exit"<<endl;
     cout << "List of commands:"<< endl;
@@ -205,12 +211,10 @@ void LogIn()
     string user_hash = Hash(email + password);
     if (users.find(user_hash) == users.end())
     {
-      // not found
       cout << "User not found\n";
     }
     else if(!logged_in)
     {
-      // found
         active_user = users[user_hash];
         logged_in = true;
         cout << "You have successfully logged in"<<endl;
@@ -420,7 +424,6 @@ void addSteps(){
 int main()
 {
     string input;
-
     cout << "First you have to register or exit." << endl;
     cout << "List of commands:"<< endl;
     cout << "register - register,"<<endl;
