@@ -224,6 +224,52 @@ void addPulse()
     }
     }
 }
+void addSteps(){
+    if(active_user.email!="")
+    {
+        int steps;
+        double averageSteps=0;
+        cout << "How many steps do you get?:\n";
+        cin >> steps;
+        averageSteps=active_user.addSteps(steps);
+        cout << "Your average steps are: " << averageSteps << endl;
+        if (active_user.age < 5) {
+            if (averageSteps >= 2000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+        }
+        else if (active_user.age >5 && active_user.age <=13) {
+            if (averageSteps >= 8000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >13 && active_user.age <=45) {
+            if (averageSteps >= 10000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >45 && active_user.age <=60) {
+            if (averageSteps >= 8000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+       else if (active_user.age >60) {
+            if (averageSteps >= 6000) {
+              cout << "Your average amount of steps is good." << endl;
+            } else {
+              cout << "Your average amount of steps is not enough." << endl;
+            }
+       }
+     }
+}
 
 
 int main()
