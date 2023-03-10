@@ -7,7 +7,7 @@ using namespace std;
 
 string encryptyfunc(int key,string text)
 {
-     char temp;
+    char temp;
     int i;
   for(i = 0; text[i] != '\0'; ++i){
     temp = text[i];
@@ -209,9 +209,11 @@ void LogIn()
     password = Hash(password);
 
     string user_hash = Hash(email + password);
-    if (users.find(user_hash) == users.end())
+    ifstream file;
+    file.open("Users/"+user_hash+".txt");
+    if(!file)
     {
-      cout << "User not found\n";
+        cout << "User not found\n";
     }
     else if(!logged_in)
     {
