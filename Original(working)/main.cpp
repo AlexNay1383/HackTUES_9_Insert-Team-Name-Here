@@ -1,6 +1,7 @@
 #include <iostream>
 #include <regex>
 #include <map>
+#include <bits/stdc++.h>
 using namespace std;
 
 string encryptyfunc(int key,string text)
@@ -173,7 +174,17 @@ void Register()
     string user_hash = Hash(email + password);
 
     users[user_hash] = user;
-    cout << "You have successfully registered"<<endl;
+
+    fstream file;
+    file.open("Users/"+user_hash+".txt",ios::out);
+    if(!file)
+    {
+        cout<<"Error in creating file!!!";
+    }
+    file.close();
+
+    cout << "File created successfully."<<endl;
+    cout << "You have successfully registered."<<endl;
     cout << "Now you can login, logout or exit"<<endl;
     cout << "List of commands:"<< endl;
     cout << "login - logs into an account,"<<endl;
