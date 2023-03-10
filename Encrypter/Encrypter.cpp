@@ -80,6 +80,7 @@ int main()
   cout << "Choose any one !" <<endl;
   cout << "1.Encryption \t 2.Decryption"<<endl;
   cin >> choice;
+  while(choice!=0){
   switch(choice)
   {
     case 1: encryptyfunc();
@@ -89,7 +90,9 @@ int main()
     default:cout << "Please select valid option";
             break;
   }
-
-
+    cout << "Choose any one !" <<endl;
+    cout << "1.Encryption \t 2.Decryption"<<endl;
+    cin>> choice;
+  }
   return 0;
 }
