@@ -177,7 +177,7 @@ void addPulse()
         {
             if(averagePulse>130) cout<<"\nPulse is too high";
             else if(averagePulse<80) cout<<"\nPulse is too low";
-            else cout<<"\nPulse is within acceptable values";
+            else cout<<"\nPulse is within acceptable range";
             break;
         }
     case 3:;
@@ -185,7 +185,7 @@ void addPulse()
         {
             if(averagePulse>120) cout<<"\nPulse is too high";
             else if(averagePulse<80) cout<<"\nPulse is too low";
-            else cout<<"\nPulse is within acceptable values";
+            else cout<<"\nPulse is within acceptable range";
             break;
         }
     case 5:;
@@ -193,7 +193,7 @@ void addPulse()
         {
             if(averagePulse>115) cout<<"\nPulse is too high";
             else if(averagePulse<75) cout<<"\nPulse is too low";
-            else cout<<"\nPulse is within acceptable values";
+            else cout<<"\nPulse is within acceptable range";
             break;
         }
     case 7:;
@@ -202,7 +202,7 @@ void addPulse()
         {
             if(averagePulse>110) cout<<"\nPulse is too high";
             else if(averagePulse<70) cout<<"\nPulse is too low";
-            else cout<<"\nPulse is within acceptable values";
+            else cout<<"\nPulse is within acceptable range";
 
             break;
         }
@@ -210,7 +210,7 @@ void addPulse()
         {
             if(averagePulse>100) cout<<"\nPulse is too high";
             else if(averagePulse<60) cout<<"\nPulse is too low";
-            else cout<<"\nPulse is within acceptable values";
+            else cout<<"\nPulse is within acceptable range";
         }
 
     }
