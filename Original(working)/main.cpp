@@ -299,7 +299,7 @@ void AddSleep()
     {
         int sleephours;
         double avg_sleep;
-        cout << "How much did you sleep?: ";
+        cout << "How much did you sleep?:"<<endl;
         cin >> sleephours;
         avg_sleep=active_user.addSleep(sleephours);
         cout << "Your average amount of sleep is: " << avg_sleep << endl;
