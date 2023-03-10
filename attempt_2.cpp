@@ -87,6 +87,15 @@ int act_index(string str)
     if(str == "water") return 4;
 }
 
+string index_act(int i)
+{
+    if(i == 0) return "sleep";
+    if(i == 1) return "workout";
+    if(i == 2) return "pulse";
+    if(i == 3) return "steps";
+    if(i == 4) return "water";
+}
+
 //STRUCTS -----------------------------------------------------------------------------------
 struct Info
 {
@@ -154,13 +163,41 @@ void enterData()
         if(act == "steps")
             message = "How many steps did you make today?\n";
         if(act == "water")
-            message = "How much water did you drink today(in liters)?\n";
+            message = "How much water did you drink today(in mililiters)?\n";
         cout << message;
         cin >> active_user.sport_info[act_index(act)][0].value;
         if(active_user.sport_info[act_index(act)][0].value >= 0) break;
     }
     active_user.sport_info[act_index(act)][0].entered = true;
 }
+
+void grade(int i, int& top, int& bottom)
+{
+    switch(i)
+    {
+        case 0:
+            bottom = 420;
+            top = 599;
+            break;
+        case 1:
+            bottom = 20;
+            top = 59;
+            break;
+        case 2:
+            bottom = 60;
+            top = 99;
+            break;
+        case 3:
+            bottom = 4000;
+            top = 17999;
+            break;
+        case 4:
+            bottom = 1500;
+            top = 3499;
+            break;
+    }
+}
+
 
 void display_bar(int x, int y, int br, COLOR col)
 {
@@ -171,38 +208,36 @@ void display_bar(int x, int y, int br, COLOR col)
     }
 }
 
-void display(string str, int top, int bottom)
+void display(string str)
 {
+    int top, bottom;
+    grade(act_index(str), top, bottom);
     int pix_v = (top+top/2) / 20 + 1;
     int pix_br;
-    int x = -1, y = 20;
-
-    //Color
     COLOR col;
+    int x = 0, y = 20;
 
     for(int i=0;i<DAYS;i++)
     {
         x++;
-        pix_br = (top+top/2) / active_user.sport_info[act_index(str)][day].value;
+        pix_br = active_user.sport_info[act_index(str)][i].value / pix_v;
 
-        if(active_user.sport_info[act_index(str)][day].value < bottom) col = RED;
-        else if(active_user.sport_info[act_index(str)][day].value > top) col = BLUE;
+        if(active_user.sport_info[act_index(str)][i].value < bottom) col = RED;
+        else if(active_user.sport_info[act_index(str)][i].value > top) col = BLUE;
         else col = GREEN;
 
         display_bar(x, y, pix_br, col);
     }
 }
 
-void display(int day, int top, int bottom)
-{
-    
-}
-
 
 int main()
 {
-    active_user.sport_info[2][0].value;
-    display("sleep", 50, 20);
+
+
+
+    int temp;
+    cin >> temp;
 
     return 0;
 }
