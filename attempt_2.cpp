@@ -8,6 +8,9 @@
 #include <map>
 using namespace std;
 
+#define ACTIVITIES 5
+#define DAYS 30
+
 HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 //Graphics
@@ -52,29 +55,46 @@ namespace Graphics
         draw_char(ch, x*2, y, foreground_color, background_color);
         draw_char(ch, x*2+1, y, foreground_color, background_color);
     }
+
+    void print_str(string str, int x, int y, COLOR foreground_color, COLOR background_color, int dir)
+    {
+        for(int i=0;i<str.size();i++)
+        {
+            draw_char(str[i], x, y, foreground_color, background_color);
+            if(dir) x++;
+            else y++;
+        }
+    }
 }
 
-class Day
+using namespace Graphics;
+
+bool
+
+struct Info
 {
     int value;
-
-    void display_day()
-    {
-
-    }
+    bool entered = false;
 };
 
-//Sports data
-class Activity
+struct Data
 {
-    public:
-        Day day[30];
+    Info info[act][day];
 
-        void display_activity()
+    void display(string activity)
+    {
+        for(int i=0;i<DAYS;i++)
         {
-            system("cls");
+            //display info[act][i]
         }
-
+    }
+    void display(int day)
+    {
+        for(int i=0;i<ACTIVITIES;i++)
+        {
+            //display info[i][day]
+        }
+    }
 };
 
 //User
@@ -83,12 +103,12 @@ class User
     public:
         string username = "";
         string email = "";
-        
+
         int age;
         int height;
         int weight;
 
-        map<string, Activity> data;
+        Data data;
 
         User()
         {
@@ -105,11 +125,26 @@ class User
         }
     private:
         string password;
-
 };
+
+void enterData()
+{
+    string act;
+    int day;
+
+    std::cout << "What activity are you entering: "
+    std::cin >> act;
+
+    if(valid_act(act))
+    {
+
+    }
+}
 
 
 int main()
 {
 
+
+    return 0;
 }
