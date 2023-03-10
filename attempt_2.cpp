@@ -69,7 +69,46 @@ namespace Graphics
 
 using namespace Graphics;
 
-bool
+struct Point
+{
+    int x = 0;
+    int y = 0;
+
+    Point()
+    {
+
+    }
+    Point(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+    ~Point()
+    {
+
+    }
+};
+
+Point pointer(0, 0);
+
+bool valid_act(string str)
+{
+    if(str == "sleep" || str == "workout" || str == "pulse" || str == "steps" || str == "water")
+    {
+        return true;
+    }
+    return false;
+}
+
+int index_act(string str)
+{
+    int i=0;
+    if(str == "sleep") i++;
+    if(str == "sleep" || str == "workout") i++;
+    if(str == "sleep" || str == "workout" || str == "pulse") i++;
+    if(str == "sleep" || str == "workout" || str == "pulse" || str == "steps") i++;
+    return i;
+}
 
 struct Info
 {
@@ -79,13 +118,14 @@ struct Info
 
 struct Data
 {
-    Info info[act][day];
+    Info info[ACTIVITIES][DAYS];
 
     void display(string activity)
     {
         for(int i=0;i<DAYS;i++)
         {
             //display info[act][i]
+
         }
     }
     void display(int day)
@@ -127,24 +167,36 @@ class User
         string password;
 };
 
+User active_user;
+
 void enterData()
 {
-    string act;
-    int day;
+    string act, message;
 
-    std::cout << "What activity are you entering: "
-    std::cin >> act;
+    cout << "What activity are you entering: ";
+    cin >> act;
 
     if(valid_act(act))
     {
-
+        if(act == "sleep" || act == "workout")
+            message = "How many hours did you " + act + " today?\n";
+        if(act == "pulse")
+            message = "How high was your pulse today?\n";
+        if(act == "steps")
+            message = "How many steps did you make today?\n";
+        if(act == "water")
+            message = "How much water did you drink today?\n";
+        cout << message;
+        cin >> active_user.data.info[index_act(act)][0].value;
+        active_user.data.info[index_act(act)][0].entered = true;
     }
+    else cout << "Invalid activity. Choose from sleep, workout, pulse, steps and water";
 }
 
 
 int main()
 {
-
+    enterData();
 
     return 0;
 }
