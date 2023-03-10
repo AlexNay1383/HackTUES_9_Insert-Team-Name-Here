@@ -191,10 +191,9 @@ void Register()
     ifstream fileReader;
     fileReader.open("Users/"+user_hash+".txt");
     cout << "You have successfully registered."<<endl;
-    cout << "Now you can login, logout or exit"<<endl;
+    cout << "Now you can login or exit"<<endl;
     cout << "List of commands:"<< endl;
     cout << "login - logs into an account,"<<endl;
-    cout << "logout - logs out of the active account,"<<endl;
     cout << "exit - exits the program."<<endl;
 }
 
