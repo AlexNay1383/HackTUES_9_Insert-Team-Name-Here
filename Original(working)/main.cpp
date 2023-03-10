@@ -218,6 +218,26 @@ void LogOut()
     logged_in = false;
     cout << "You have successfully logged out."<<endl;
 }
+
+void AddWater()
+{
+  if(active_user.email!="")
+  {
+    int water;
+    double avg_water;
+    cout << "How much water you consumed in liters?: ";
+    cin >> water;
+    avg_water=active_user.addWater(water);
+    cout << "Your average consumed water is: " << avg_water << endl;
+    if (avg_water >= 2)
+    {
+      cout << "Your consumed water is enough. \nWell done!" << endl;
+    } else
+    {
+       cout << "Your consumed water isn't enough. \nDrink more water!" << endl;
+    }
+  }
+}
 void AddWorkout()
 {
   if(active_user.email!="")
@@ -257,26 +277,6 @@ void AddWorkout()
       }
   }
 }
-void AddWater()
-{
-  if(active_user.email!="")
-  {
-    int water;
-    double avg_water;
-    cout << "How much water you consumed in liters?: ";
-    cin >> water;
-    avg_water=active_user.addWater(water);
-    cout << "Your average consumed water is: " << avg_water << endl;
-    if (avg_water >= 2)
-    {
-      cout << "Your consumed water is enough. \nWell done!" << endl;
-    } else
-    {
-       cout << "Your consumed water isn't enough. \nDrink more water!" << endl;
-    }
-  }
-}
-
 void AddSleep()
 {
     if(active_user.email!="")
@@ -409,6 +409,7 @@ void addSteps(){
 int main()
 {
     string input;
+
     cout << "First you have to register or exit." << endl;
     cout << "List of commands:"<< endl;
     cout << "register - register,"<<endl;
