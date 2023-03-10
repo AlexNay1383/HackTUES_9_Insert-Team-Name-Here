@@ -13,9 +13,10 @@ using namespace std;
 
 HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
-//Graphics
+//GRAPHICS ----------------------------------------------------------------------------------
 namespace Graphics
 {
+
     enum COLOR
     {
         BLACK = 0,
@@ -69,70 +70,37 @@ namespace Graphics
 
 using namespace Graphics;
 
-struct Point
-{
-    int x = 0;
-    int y = 0;
-
-    Point()
-    {
-
-    }
-    Point(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-    }
-    ~Point()
-    {
-
-    }
-};
-
-Point pointer(0, 0);
-
-bool valid_act(string str)
+//GLOBAL FUNCTIONS --------------------------------------------------------------------------
+bool act_valid(string str)
 {
     if(str == "sleep" || str == "workout" || str == "pulse" || str == "steps" || str == "water")
-    {
         return true;
-    }
     return false;
 }
 
-int index_act(string str)
+int act_index(string str)
 {
-    int i=0;
-    if(str == "sleep") i++;
-    if(str == "sleep" || str == "workout") i++;
-    if(str == "sleep" || str == "workout" || str == "pulse") i++;
-    if(str == "sleep" || str == "workout" || str == "pulse" || str == "steps") i++;
-    return i;
+    if(str == "sleep") return 0;
+    if(str == "workout") return 1;
+    if(str == "pulse") return 2;
+    if(str == "steps") return 3;
+    if(str == "water") return 4;
 }
 
+//STRUCTS -----------------------------------------------------------------------------------
 struct Info
 {
     int value;
-    bool entered = false;
-};
+    bool entered;
 
-struct Data
-{
-    Info info[ACTIVITIES][DAYS];
-
-    void display_avg(string act)
+    Info()
     {
-        int sum = 0;
+        value = 0;
+        entered = false;
+    }
+    ~Info()
+    {
 
-        for(int i=0;i<DAYS;i++)
-        {
-            if(info[index_act(act)][i].entered)
-                sum+=info[index_act(act)][i].value;
-        }
-        sum/=DAYS;
-
-
-        cout << "Your average amount of " + act + " is: " << sum << endl;
     }
 };
 
@@ -143,11 +111,7 @@ class User
         string username = "";
         string email = "";
 
-        int age;
-        int height;
-        int weight;
-
-        Data data;
+        Info sport_info[ACTIVITIES][DAYS];
 
         User()
         {
@@ -168,14 +132,20 @@ class User
 
 User active_user;
 
+
+
+//FUNCTION WITH STRUCTS ---------------------------------------------------------------------
 void enterData()
 {
     string act, message;
 
-    cout << "What activity are you entering: ";
-    cin >> act;
-
-    if(valid_act(act))
+    while(true)
+    {
+        cout << "What activity are you entering: ";
+        cin >> act;
+        if(act_valid(act)) break;
+    }
+    while(true)
     {
         if(act == "sleep" || act == "workout")
             message = "How many minutes did you " + act + " today?\n";
@@ -186,17 +156,53 @@ void enterData()
         if(act == "water")
             message = "How much water did you drink today(in liters)?\n";
         cout << message;
-        cin >> active_user.data.info[index_act(act)][0].value;
-        active_user.data.info[index_act(act)][0].entered = true;
+        cin >> active_user.sport_info[act_index(act)][0].value;
+        if(active_user.sport_info[act_index(act)][0].value >= 0) break;
     }
-    else cout << "Invalid activity. Choose from sleep, workout, pulse, steps and water";
+    active_user.sport_info[act_index(act)][0].entered = true;
+}
+
+void display_bar(int x, int y, int br, COLOR col)
+{
+    for(int i=0;i<br;i++)
+    {
+        draw_pixel(' ', x, y, col, col);
+        y--;
+    }
+}
+
+void display(string str, int top, int bottom)
+{
+    int pix_v = (top+top/2) / 20 + 1;
+    int pix_br;
+    int x = -1, y = 20;
+
+    //Color
+    COLOR col;
+
+    for(int i=0;i<DAYS;i++)
+    {
+        x++;
+        pix_br = (top+top/2) / active_user.sport_info[act_index(str)][day].value;
+
+        if(active_user.sport_info[act_index(str)][day].value < bottom) col = RED;
+        else if(active_user.sport_info[act_index(str)][day].value > top) col = BLUE;
+        else col = GREEN;
+
+        display_bar(x, y, pix_br, col);
+    }
+}
+
+void display(int day, int top, int bottom)
+{
+    
 }
 
 
 int main()
 {
-    User user;
-    user.data.display_avg("sleep");
+    active_user.sport_info[2][0].value;
+    display("sleep", 50, 20);
 
     return 0;
 }
