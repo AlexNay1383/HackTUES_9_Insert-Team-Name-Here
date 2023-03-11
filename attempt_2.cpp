@@ -147,12 +147,21 @@ User active_user;
 void enterData()
 {
     string act, message;
+    int day;
 
     while(true)
     {
         cout << "What activity are you entering: ";
         cin >> act;
         if(act_valid(act)) break;
+        cout << "\nPlease enter sleep, workout, pulse, steps or water\n";
+    }
+    while(true)
+    {
+        cout << "How many days ago did this activity happen(max up to 29 days ago): ";
+        cin >> day;
+        if(day < 30 && day >=0) break;
+        cout << "\nPlease enter a valid value\n";
     }
     while(true)
     {
@@ -165,10 +174,11 @@ void enterData()
         if(act == "water")
             message = "How much water did you drink today(in mililiters)?\n";
         cout << message;
-        cin >> active_user.sport_info[act_index(act)][0].value;
-        if(active_user.sport_info[act_index(act)][0].value >= 0) break;
+        cin >> active_user.sport_info[act_index(act)][day].value;
+        if(active_user.sport_info[act_index(act)][day].value >= 0) break;
+        cout << "Please enter a positive integer";
     }
-    active_user.sport_info[act_index(act)][0].entered = true;
+    active_user.sport_info[act_index(act)][day].entered = true;
 }
 
 void grade(int i, int& top, int& bottom)
@@ -210,12 +220,13 @@ void display_bar(int x, int y, int br, COLOR col)
 
 void display(string str)
 {
+    system("cls");
     int top, bottom;
     grade(act_index(str), top, bottom);
     int pix_v = (top+top/2) / 20 + 1;
     int pix_br;
     COLOR col;
-    int x = 0, y = 20;
+    int x = 1, y = 20;
 
     for(int i=0;i<DAYS;i++)
     {
@@ -228,12 +239,26 @@ void display(string str)
 
         display_bar(x, y, pix_br, col);
     }
+
+    print_str("Days", 28, y+2, WHITE, BLACK, 1);
+    print_str("Value", 0, 7, WHITE, BLACK, 0);
+
+    print_str("- Too Little", 3, 24, WHITE, BLACK, 1);
+    print_str("- Good", 3, 25, WHITE, BLACK, 1);
+    print_str("- Too Much", 3, 26, WHITE, BLACK, 1);
+    draw_pixel(' ', 0, 24, RED, RED);
+    draw_pixel(' ', 0, 25, GREEN, GREEN);
+    draw_pixel(' ', 0, 26, BLUE, BLUE);
 }
 
 
 int main()
 {
-
+    for(int i=0;i<5;i++)
+    {
+        enterData();
+    }
+    display("sleep");
 
 
     int temp;
