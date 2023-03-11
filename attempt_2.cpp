@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <regex>
 using namespace std;
 
 #define ACTIVITIES 5
@@ -87,13 +88,69 @@ int act_index(string str)
     if(str == "water") return 4;
 }
 
-string index_act(int i)
+string Hash(string str)
 {
-    if(i == 0) return "sleep";
-    if(i == 1) return "workout";
-    if(i == 2) return "pulse";
-    if(i == 3) return "steps";
-    if(i == 4) return "water";
+   hash<string> hasher;
+   const auto output = hasher(str);
+
+   return to_string(output);
+}
+
+string encryptfunc(int key,string text)
+{
+    char temp;
+    int i;
+  for(i = 0; text[i] != '\0'; ++i){
+    temp = text[i];
+    if((temp >= 'a' && temp <= 'z')) {
+      temp = temp + key;
+
+      if(temp > 'z'){
+        temp = temp - 'z' + 'a' - 1;
+      }
+
+      text[i] = temp;
+    }
+    else if(temp >= '0' && temp <= 'Z'){
+      temp = temp + key;
+
+      if(temp > 'Z'){
+        temp = temp - 'Z' + '0' - 1;
+      }
+
+      text[i] = temp;
+    }
+  }
+    return text;
+}
+string decryptfunc(int key,string text)
+{
+    char temp;
+    int i;
+  for(i = 0; text[i] != '\0'; ++i){
+    temp = text[i];
+    if((temp >= 'a' && temp <= 'z')){
+      temp = temp - key;
+
+      if(temp < 'a' && temp > '9'){
+        temp = temp + 'z' - 'a' + 1;
+      }
+
+      text[i] = temp;
+    }
+    else if(temp >= '0' && temp <= 'Z'){
+      temp = temp - key;
+
+      if(temp < '0'){
+        temp = temp + 'Z' - '0' + 1;
+      }
+
+      text[i] = temp;
+    }
+  }
+
+  return text;
+
 }
 
 //STRUCTS -----------------------------------------------------------------------------------
@@ -117,7 +174,7 @@ struct Info
 class User
 {
     public:
-        string username = "";
+        string password = "";
         string email = "";
 
         Info sport_info[ACTIVITIES][DAYS];
@@ -135,12 +192,90 @@ class User
         {
 
         }
-    private:
-        string password;
 };
 
+map<string, User> users;
 User active_user;
+int logged_in = false;
 
+//User homepage
+bool email_is_valid(string email)
+{
+    string userEmailRegex = "([_a-z0-9-]+@[a-z0-9-]+.[a-z0-9-]{2,4})";
+    return regex_match(email, regex(userEmailRegex));
+}
+
+void Register()
+{
+    string email, password, email1;
+
+    cout << "Enter email: ";
+    cin >> email;
+    bool isValid = email_is_valid(email);
+
+    while(!isValid)
+    {
+        cout << "\nInvalid email\n" << endl;
+        cout << "Enter email: ";
+        cin >> email;
+        isValid = email_is_valid(email);
+    }
+
+    int encKey = email.size();
+
+    cout << "Enter password: ";
+    cin >> password;
+
+    password = Hash(password);
+
+    User user(email, password);
+    string user_hash = Hash(email + password);
+
+    users[user_hash] = user;
+
+    fstream file;
+    file.open("Users/"+user_hash+".txt",ios::out);
+    if(!file)
+    {
+        cout<<"Error in creating file!!!";
+    }
+    file.close();
+    ifstream fileReader;
+    fileReader.open("Users/"+user_hash+".txt");
+}
+
+void LogIn()
+{
+    string email, password;
+    cout << "Enter email: ";
+    cin >> email;
+    cout << "Enter password: ";
+    cin >> password;
+
+    password = Hash(password);
+
+    string user_hash = Hash(email + password);
+    ifstream file;
+    file.open("Users/"+user_hash+".txt");
+    if(!file)
+    {
+        cout << "User not found\n";
+    }
+    else if(!logged_in)
+    {
+        active_user = users[user_hash];
+        logged_in = true;
+        cout << "You have successfully logged in"<<endl;
+    }
+    
+}
+
+void LogOut()
+{
+    active_user = User();
+    logged_in = false;
+    cout << "\nYou have successfully logged out."<<endl;
+}
 
 
 //FUNCTION WITH STRUCTS ---------------------------------------------------------------------
@@ -254,12 +389,37 @@ void display(string str)
 
 int main()
 {
-    for(int i=0;i<5;i++)
-    {
-        enterData();
-    }
-    display("sleep");
+    string input;
+    cout << "List of commands:\nregister - register\nlogin - log in an existing account\nlogout - log out of the current account\nexit - exits the program\nenter - enter information\nsave - save changes to information\ndisplay - display information";
 
+    for(int i=0; i < input.length();i++)
+    {
+        char a = tolower(input[i]);
+        input[i]=a;
+    }
+    while(input!="exit"){
+
+        if(input=="login"){
+            LogIn();
+        }
+        else if(input=="logout"){
+            LogOut();
+        }
+        else if(input=="register"){
+            Register();
+        }
+        else if(input=="enter"){
+            cout << "\nenter \"leave\" to exit enter mode\n";
+            do{
+                cin >> input;
+                
+            }
+        }
+        else if()
+        
+        cout << "\n";
+        cin >> input;
+    }
 
     int temp;
     cin >> temp;
