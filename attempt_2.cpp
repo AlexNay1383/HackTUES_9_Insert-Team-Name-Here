@@ -408,14 +408,6 @@ int main()
         else if(input=="register"){
             Register();
         }
-        else if(input=="enter"){
-            cout << "\nenter \"leave\" to exit enter mode\n";
-            do{
-                cin >> input;
-                
-            }
-        }
-        else if()
         
         cout << "\n";
         cin >> input;
